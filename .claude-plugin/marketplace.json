@@ -1,0 +1,5 @@
+{
+  "name": "andrew-mods",
+  "owner": { "name": "Andrew" },
+  "plugins": [{ "name": "coastline-theme", "source": "./" }]
+}
