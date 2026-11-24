@@ -2,5 +2,6 @@
   "name": "coastline-theme",
   "version": "0.2.0",
   "description": "Coastline: a beach at dusk, with warm dark sand, cream text, a gold accent, a soft gradient, and color-coded usage-limit meters",
-  "types": "./types/index.d.ts"
+  "types": "./types/index.d.ts",
+  "license": "MIT"
 }

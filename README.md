@@ -49,3 +49,7 @@ Everything lives in `hooks/register.tsx`:
 ```bash
 claude plugin uninstall coastline-theme
 ```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
