@@ -106,7 +106,8 @@ export const register: Register = on => {
               value={limit.percentUsed}
               max={100}
               valueText={`${Math.round(limit.percentUsed)}%`}
-              color={meterColor(limit.percentUsed)}
+              // Color by the same rounded number the label shows, so "30%" is never yellow.
+              color={meterColor(Math.round(limit.percentUsed))}
             />
           </Box>
         ))}
