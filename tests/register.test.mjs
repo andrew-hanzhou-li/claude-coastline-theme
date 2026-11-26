@@ -9,25 +9,19 @@ import { makeColors } from '../hooks/make-colors.js'
 
 const source = readFileSync(new URL('../hooks/register.tsx', import.meta.url), 'utf8')
 
-// The text from `open` (a `{` or `(`) to its matching close.
-function balanced(text, open) {
-  const pairs = { '{': '}', '(': ')' }
-  const close = pairs[text[open]]
+// The text from the `{` at `open` to its matching `}`.
+function braced(text, open) {
   let depth = 0
   for (let i = open; i < text.length; i++) {
-    if (text[i] === text[open]) depth++
-    else if (text[i] === close && --depth === 0) return text.slice(open, i + 1)
+    if (text[i] === '{') depth++
+    else if (text[i] === '}' && --depth === 0) return text.slice(open, i + 1)
   }
-  throw Error(`No match for ${text[open]} at ${open} in register.tsx`)
+  throw Error(`No closing brace for the one at ${open} in register.tsx`)
 }
 
-function after(marker) {
-  const at = source.indexOf(marker)
-  assert.notEqual(at, -1, `register.tsx no longer has ${JSON.stringify(marker)}`)
-  return at + marker.length
-}
-
-const definition = Function(`return ${balanced(source, after('makeColors(') - 1)}`)()
+const call = source.indexOf('makeColors({')
+assert.notEqual(call, -1, 'register.tsx no longer calls makeColors({...})')
+const definition = Function(`return ${braced(source, call + 'makeColors('.length)}`)()
 
 describe('Coastline palette', () => {
   test('builds without throwing and is dark only', () => {
@@ -59,7 +53,7 @@ describe('meterColor', { skip: !nodeModule.stripTypeScriptTypes && 'needs node:m
     const start = source.indexOf('function meterColor(')
     assert.notEqual(start, -1, 'register.tsx no longer has function meterColor')
     const open = source.indexOf('{', source.indexOf(')', start))
-    const ts = source.slice(start, open) + balanced(source, open)
+    const ts = source.slice(start, open) + braced(source, open)
     return Function(`${nodeModule.stripTypeScriptTypes(ts)}; return meterColor`)()
   }
   const GREEN = '#7fb069'
