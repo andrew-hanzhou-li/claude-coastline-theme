@@ -44,6 +44,8 @@ Everything lives in `hooks/register.tsx`:
 - **Glass:** `glass: { blur, tint, opacity }` controls how see-through the panels are.
 - **Meter cutoffs:** `meterColor()` holds the 30 / 55 / 75 percent thresholds and their colors.
 
+After a change, run `node --test` (Node 22.13 or later) to check the colors still build and the meter cutoffs still match the table above.
+
 ## Uninstall
 
 ```bash
